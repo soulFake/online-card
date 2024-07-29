@@ -1,0 +1,8 @@
+{
+  "name": "online-card",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "80120821"
+}

@@ -1,0 +1,182 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>cards</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content  [fullscreen]="true" class="bg-[#d4e0d2] flex flex-col justify-around">
+  <p class="text-xs flex flex-row text-green-950 font-bold w-full justify-center my-5"> Votre carte vous a été générer, Merci ! </p>
+<div #myCard >
+    <app-front-side id="printer" *ngIf="frontSide === true && selectedOption == 1" (click)="changeFace()" class="flex justify-center mx-auto  my-2"></app-front-side>
+    <app-back-side *ngIf="frontSide === false && selectedOption == 1" (click)="changeFace()"  class="flex justify-center mx-auto  my-2"></app-back-side>
+    
+    <app-front-side-2 *ngIf="frontSide === true && selectedOption == 2" (click)="changeFace()" class="flex justify-center mx-auto  my-2"></app-front-side-2>
+    <app-back-side-2 *ngIf="frontSide === false && selectedOption == 2" (click)="changeFace()"  class="flex justify-center mx-auto  my-2"></app-back-side-2>
+</div>
+<div class="flex flex-col justify-around gap-4">
+  <i><p class="text-xs flex flex-row w-full text-green-950 font-bold justify-center my-5"> Taper sur la carte pour voir l'autre côté de la carte </p></i>
+
+    <ion-item class="mx-5 rounded-lg text-black font-bold ps-3" lines="none" color="#d4e0d2">
+      <ion-input disabled="true" class="rounded-lg ps-3 text-black shadow-md " labelPlacement="stacked" label="Position detect" placeholder="{{address}}">
+        <ion-icon slot="start" name="location-outline" aria-hidden="true"></ion-icon>
+        <ion-button id="click-trigger" (click)="writeToClipboard()" fill="clear" slot="end" aria-label="Show/hide">
+          <ion-icon size="large" color="primary" slot="icon-only" name="copy-outline" aria-hidden="true"></ion-icon>
+          <ion-popover trigger="click-trigger" triggerAction="click">
+            <ng-template>
+              <ion-content class="ion-padding">Lien copié dans le presse papier!</ion-content>
+            </ng-template>
+          </ion-popover>
+        </ion-button>
+      </ion-input>
+    </ion-item>
+
+<div class="mb-3 ">
+    <ion-item color="#d4e0d2" lines="none" class="mx-5 rounded-lg ">
+      <ion-select aria-label="Fruit" (change) = "pushData()" [(ngModel)]="selectedOption" interface="popover" class="rounded-lg ps-3 text-green-950 shadow-md bg-[#ffffffd3]" placeholder="Select your style">
+        <ion-select-option value= 1 >Style 1</ion-select-option>
+        <ion-select-option value=2 >Style 2</ion-select-option>
+        <!-- <ion-select-option value=3 >Style 3</ion-select-option> -->
+      </ion-select>
+    </ion-item>
+</div>
+
+
+  <!-- <ion-button href="/cards" size="medium" ></ion-button>  -->
+  <button id="open-modal" expand="block" type="button" class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center flex items-center justify-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-auto ms-auto mb-2">
+    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+      <path fill-rule="evenodd" d="M11.32 6.176H5c-1.105 0-2 .949-2 2.118v10.588C3 20.052 3.895 21 5 21h11c1.105 0 2-.948 2-2.118v-7.75l-3.914 4.144A2.46 2.46 0 0 1 12.81 16l-2.681.568c-1.75.37-3.292-1.263-2.942-3.115l.536-2.839c.097-.512.335-.983.684-1.352l2.914-3.086Z" clip-rule="evenodd"/>
+      <path fill-rule="evenodd" d="M19.846 4.318a2.148 2.148 0 0 0-.437-.692 2.014 2.014 0 0 0-.654-.463 1.92 1.92 0 0 0-1.544 0 2.014 2.014 0 0 0-.654.463l-.546.578 2.852 3.02.546-.579a2.14 2.14 0 0 0 .437-.692 2.244 2.244 0 0 0 0-1.635ZM17.45 8.721 14.597 5.7 9.82 10.76a.54.54 0 0 0-.137.27l-.536 2.84c-.07.37.239.696.588.622l2.682-.567a.492.492 0 0 0 .255-.145l4.778-5.06Z" clip-rule="evenodd"/>
+    </svg>
+        Modifier les Données de la carte
+  </button>
+  </div>
+<!-- Modifications des Informations Modal -->
+  <ion-modal #modal trigger="open-modal"  [initialBreakpoint]="0.75" [breakpoints]="[0, 0.5, 0.75, 1]" >
+    <ng-template >
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Informations</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="modal.dismiss()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="bg-white">
+        <ion-list>
+          <ion-item>
+           <div class="mb-6 w-full">
+            <label for="default-input" class="block mb-2  text-sm font-medium text-gray-200 dark:text-white">Name: </label>
+            <input type="text" [(ngModel)]="company" value="{{value?.name}}" id="default-input" class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+         </div>
+        </ion-item>
+        <!-- Logo -->
+          <ion-item>
+           <div class="mb-6 w-full">
+            <label class="block mb-2 text-sm font-medium text-gray-200 dark:text-white" for="file_input">Upload file</label>
+            <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
+          </div>
+        </ion-item>
+
+        <ion-item>
+          <div class="mb-6 w-full">
+            <label for="default-input" class="block mb-2  text-sm font-medium text-gray-200 dark:text-white">Téléphone: </label>
+            <input type="text" [(ngModel)]="phone" value="{{value?.phone}}" id="default-input" class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+         </div>
+        </ion-item>
+
+        <ion-item>
+          <div class="mb-6 w-full">
+          <label for="default-input" class="block mb-2  text-sm font-medium text-gray-200 dark:text-white">Address: </label>
+            <input type="text" [(ngModel)]="address" value="{{value?.address}}" id="default-input" class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+         </div>
+         </ion-item>
+
+         <ion-item>
+          <div class="mb-6 w-full">
+          <label for="default-input" class="block mb-2  text-sm font-medium text-gray-200 dark:text-white">Email: </label>
+            <input type="text" [(ngModel)]="email" value="{{value?.email}}" id="default-input" class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+         </div>
+         </ion-item>
+
+         <ion-item>
+          <div class="mb-6 w-full">
+          <label for="default-input" class="block mb-2  text-sm font-medium text-gray-200 dark:text-white">Facebook: </label>
+            <input type="text" [(ngModel)]="facebook" value="{{value?.facebook}}" id="default-input" class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+         </div>
+         </ion-item>
+
+         <ion-item>
+          <div class="mb-6 w-full">
+          <label for="default-input" class="block mb-2  text-sm font-medium text-gray-200 dark:text-white">Twitter: </label>
+            <input type="text" [(ngModel)]="twitter" value="{{value?.twitter}}" id="default-input" class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+         </div>
+         </ion-item>
+
+         <ion-item>
+          <div class="mb-6 w-full">
+          <label for="default-input" class="block mb-2  text-sm font-medium text-gray-200 dark:text-white">Instagram</label>
+            <input type="text" [(ngModel)]="instagram" value="{{value?.instagram}}" id="default-input" class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+         </div>
+         </ion-item>       
+        </ion-list>
+      </ion-content>
+      <ion-footer>
+        <button  (click)="pushData();modal.dismiss();" id="open-modal" expand="block" type="button" class="text-gray-900 mt-3 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center flex items-center justify-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-auto ms-auto mb-2">
+          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M11.32 6.176H5c-1.105 0-2 .949-2 2.118v10.588C3 20.052 3.895 21 5 21h11c1.105 0 2-.948 2-2.118v-7.75l-3.914 4.144A2.46 2.46 0 0 1 12.81 16l-2.681.568c-1.75.37-3.292-1.263-2.942-3.115l.536-2.839c.097-.512.335-.983.684-1.352l2.914-3.086Z" clip-rule="evenodd"/>
+            <path fill-rule="evenodd" d="M19.846 4.318a2.148 2.148 0 0 0-.437-.692 2.014 2.014 0 0 0-.654-.463 1.92 1.92 0 0 0-1.544 0 2.014 2.014 0 0 0-.654.463l-.546.578 2.852 3.02.546-.579a2.14 2.14 0 0 0 .437-.692 2.244 2.244 0 0 0 0-1.635ZM17.45 8.721 14.597 5.7 9.82 10.76a.54.54 0 0 0-.137.27l-.536 2.84c-.07.37.239.696.588.622l2.682-.567a.492.492 0 0 0 .255-.145l4.778-5.06Z" clip-rule="evenodd"/>
+          </svg>
+              Enregistrer les modifications
+        </button>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
+<!-- Download Modal -->
+  <ion-modal #modalDownload trigger="open-download" >
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Modal</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="modalDownload.dismiss();">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="bg-[#d4e0d2] flex flex-col justify-around">
+
+        <div #myCard id="myLucky" class="fles flex-col gap-4">
+          <app-front-side  *ngIf="selectedOption == 1"  class="flex justify-center mx-auto  my-2"></app-front-side>
+          <app-back-side *ngIf="selectedOption == 1"   class="flex justify-center mx-auto  my-2"></app-back-side>
+          
+          <app-front-side-2 *ngIf="selectedOption == 2"  class="flex justify-center mx-auto  my-2"></app-front-side-2>
+          <app-back-side-2 *ngIf="selectedOption == 2"  class="flex justify-center mx-auto  my-2"></app-back-side-2>
+      
+          
+        </div>
+
+        <button (click)="exportAsPDF()"  type="button" class="text-gray-900 mt-3 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center flex justify-center items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-auto ms-auto mb-2">
+          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V4M7 14H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-2m-1-5-4 5-4-5m9 8h.01"/>
+          </svg>
+              Télécharger
+        </button>
+
+
+
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+
+</ion-content>
+
+<ion-footer class="bg-[#d4e0d2]">
+  <button id="open-download" expand="block"  type="button" class="text-gray-900 mt-3 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center flex justify-center items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-auto ms-auto mb-2">
+    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V4M7 14H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-2m-1-5-4 5-4-5m9 8h.01"/>
+    </svg>
+        Télécharger
+  </button>
+  <!-- <button kendoButton (click)="pdf.saveAs('invoice.pdf') " class="text-white w-24 justify-center items-center flex ms-auto me-auto bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm  py-2.5 text-center mb-2">Download</button> -->
+</ion-footer>
