@@ -81,7 +81,7 @@ async exportAsPDF() {
       const imgProps = pdf.getImageProperties(imgData);
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
+      console.log(pdfWidth)
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       
       // Save the PDF to the file system
