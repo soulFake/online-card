@@ -1,0 +1,29 @@
+<div  class="bg-cover mx-3 flex-row flex w-[400px] h-[250px]  rounded-lg bg-white  shadow-lg " style="background-image: url('../../../../assets/style_5/front.svg')">
+  
+<div class="flex flex-col gap-2 justify-center ps-3 w-[50%]  ">
+ <h1 class="text-xl justify-center  mx-auto font-sans font-semibold  text-[#ed890d]  ">
+     <!-- COMPANYNAM -->
+     {{value?.name | uppercase}}
+   </h1>
+
+   <div class="text-black flex flex-col gap-2  mx-auto text-center text-sm">
+     <i >
+         Une petite description de votre entreprise/slogan
+     </i>
+     <!-- <i class="">
+         Lien Catalogue
+     </i> -->
+   </div>
+</div>
+  
+<div class="flex flex-col my-auto me-2 mx-auto w-[50%]   ">
+  <!-- <img src="../assets/isnov2.png" alt="" class=""> -->
+  <img id="blah" [src] = "value?.logo"  alt="" class=" w-auto ms-auto me-1">
+
+  
+</div>  
+   
+  
+
+</div>
+

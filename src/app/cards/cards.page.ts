@@ -1,14 +1,10 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { BackSideComponent } from '../back-side/back-side.component';
-import { IonHeader, IonContent } from "@ionic/angular/standalone";
-import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
-import { AnimationController, LoadingController, Platform } from '@ionic/angular';
+import { Component, OnInit, Input,} from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { FormService } from '../form.service';
 import { Information } from '../information';
 import * as jsPDF from 'jspdf';
 import { Clipboard } from '@capacitor/clipboard';
 import html2canvas from 'html2canvas';
-// import domtoimage from 'dom-to-image';
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { PrintService } from '../print.service';
 import { FileOpener, FileOpenerOptions } from '@capacitor-community/file-opener';
@@ -21,8 +17,11 @@ import { FileOpener, FileOpenerOptions } from '@capacitor-community/file-opener'
   // imports : [PDFExportModule, ]
 })
 export class CardsPage implements OnInit {
+
+// proprietes / var 
+
 frontSide : boolean = true;
-selectedOption?: number = 1;
+selectedOption?: number = 3;
 value?: Information;
 
 @Input() company? : string ;
@@ -37,31 +36,24 @@ value?: Information;
 @Input() latitude? : string ;
 @Input() address? : string ;
 @Input() site? : string ;
-// @Input() latitude? : string ;
-// @Input() longitude? : string ;
+@Input() catalog? : string ;
 @Input() id? : number ;
 loading: any;
 
-  constructor(private animationCtrl: AnimationController, private formService : FormService,
-    //  public printer: Printer
-    // private printer: Printer
-    // public loadingCtrl: LoadingController,
-    // private fileOpener: FileOpener,
-    private printService: PrintService,
-    // private file: File,
+// Methodes / Functions
+
+  constructor(
+    private formService : FormService,
     private platform: Platform
-    // private fileOpener: FileOpener
     ) { }
 
   
-
-
 // ******************************************************************
 // *                         !important                             *
 // ******************************************************************
 
    async writeToClipboard () {
-  await Clipboard.write({
+    await Clipboard.write({
     string: "https://www.google.com/maps?q=" + this.latitude + "," + this.longitude
   });
 };
@@ -115,20 +107,6 @@ async exportAsPDF() {
   }
 }
 
-
-    public printContent(): void {
-      const element = document.getElementById('printer');
-      if (element) {
-        const printContent = element.innerHTML;
-        this.printService.print(printContent);
-      } else {
-        console.error('Element not found!');
-      }
-    }
-
-
-
-
   ngOnInit() {
     this.platform.ready().then(() => {
       console.log('Platform ready, plugins available');
@@ -146,31 +124,22 @@ async exportAsPDF() {
   getInfo():void {
     this.formService.getInfo().subscribe(obj => this.value = obj);
   }
+
   initData(): void{
     this.company = this.value?.name;
     this.address = this.value?.address;
     this.email = this.value?.email;
     this.facebook = this.value?.facebook;
     this.twitter = this.value?.twitter;
+    this.instagram = this.value?.instagram;
     this.phone = this.value?.phone;
+    this.site = this.value?.site;
+    this.catalog = this.value?.catalog;
     this.longitude = this.value?.longitude
     this.latitude = this.value?.latitude
     // this.logo = this.value?.logo;
 
   }
-  @ViewChild('myCard', {static: false}) myCard?: ElementRef;
-
-  // public downloadPDF() {
-  //   const doc = new jsPDF();
-
-    
-
-  //   const html = this.myCard?.nativeElement.innerHTML;
-
-  //   doc.html(html);
-
-  //   doc.save('test.pdf');
-  // }
 
   pushData(): void {
     this.formService.info!.name = this.company;
@@ -187,88 +156,6 @@ async exportAsPDF() {
 
   }
 
-
-  enterAnimation = (baseEl: HTMLElement) => {
-    const root = baseEl.shadowRoot;
-    const backdropAnimation = this.animationCtrl
-      .create()
-      .addElement(root!.querySelector('ion-backdrop')!)
-      .fromTo('opacity', '0.01', 'var(--backdrop-opacity)');
-
-    const wrapperAnimation = this.animationCtrl
-      .create()
-      .addElement(root!.querySelector('.modal-wrapper')!)
-      .keyframes([
-        { offset: 0, opacity: '0', transform: 'scale(0)' },
-        { offset: 1, opacity: '0.99', transform: 'scale(1)' },
-      ]);
-
-    return this.animationCtrl
-      .create()
-      .addElement(baseEl)
-      .easing('ease-out')
-      .duration(500)
-      .addAnimation([backdropAnimation, wrapperAnimation]);
-  };
-
-  leaveAnimation = (baseEl: HTMLElement) => {
-    return this.enterAnimation(baseEl).direction('reverse');
-  };
-
-  // downloadInvoice() {
-  //   this.content = document.getElementById('PrintInvoice').innerHTML;
-  //   let options = {
-  //     documentSize: 'A4',
-  //     type: 'share',
-  //     // landscape: 'portrait',
-  //     fileName: 'Order-Invoice.pdf'
-  //   };
-  //   this.pdfGenerator.fromData(this.content, options)
-  //     .then((base64) => {
-  //       console.log('OK', base64);
-  //     }).catch((error) => {
-  //       console.log('error', error);
-  //     });
-  //   }
-
-  // printTo() {
-  //   var element = document.getElementById('printer');
-  //   html2canvas(element!, { allowTaint : true }).then((canvas) =>
-  //   {
-  //     canvas.getContext('2d');
-  //     var image = canvas.toDataURL('image/jpeg', 1.0).replace("image/png", "image/octet-stream");;
-  //     window.location.href = image;
-  //       });    // let content = document.getElementById('printer')?.innerHTML;
-  //   // // this.printer.isAvailable().then(onSuccess, onError);
-  //   // let options: PrintOptions = {
-  //   //         name: 'MyDocument',
-  //   //         duplex: true,
-  //   //         orientation: 'landscape',
-  //   //         monochrome: true
-  //   //    }
-      
-  //   //    this.printer.print(content, options);
-  // // this.printer.isAvailable().then((onSuccess: any) => {
-  // //   let content = document.getElementById('printer')?.innerHTML;
-  // //   content = content?.replace(/(\r\n|\n|\r)/gm, '' );
-  // //   let options: PrintOptions = {
-  // //   name: 'MyDocument',
-  // //   duplex: true,
-  // //   orientation: "portrait",
-  // //   monochrome: true
-  // //   };
-  //   // cordova.plugins.printer(content);
-  //   // Printer.print(content, options)
-  //   // this.printer.print(content, options).then((value: any) => {
-  //   // console.log('value:', value);
-  //   // }, (error) => {
-  //   // console.log('eror:', error);
-  //   // });
-  //   // }, (err) => {
-  //   // console.log('err:', err);
-  //   // });
-  // }
-  
 }
 
 

@@ -12,6 +12,20 @@
     
     <app-front-side-2 *ngIf="frontSide === true && selectedOption == 2" (click)="changeFace()" class="flex justify-center mx-auto  my-2"></app-front-side-2>
     <app-back-side-2 *ngIf="frontSide === false && selectedOption == 2" (click)="changeFace()"  class="flex justify-center mx-auto  my-2"></app-back-side-2>
+
+    <app-front-side-3 *ngIf="frontSide === true && selectedOption == 3" (click)="changeFace()" class="flex justify-center mx-auto  my-2"></app-front-side-3>
+    <app-back-side-3 *ngIf="frontSide === false && selectedOption == 3" (click)="changeFace()"  class="flex justify-center mx-auto  my-2"></app-back-side-3>
+
+    <app-front-side-4 *ngIf="frontSide === true && selectedOption == 4" (click)="changeFace()" class="flex justify-center mx-auto  my-2"></app-front-side-4>
+    <app-back-side-4 *ngIf="frontSide === false && selectedOption == 4" (click)="changeFace()"  class="flex justify-center mx-auto  my-2"></app-back-side-4>
+
+    <app-front-side-5 *ngIf="frontSide === true && selectedOption == 5" (click)="changeFace()" class="flex justify-center mx-auto  my-2"></app-front-side-5>
+    <app-back-side-5 *ngIf="frontSide === false && selectedOption == 5" (click)="changeFace()"  class="flex justify-center mx-auto  my-2"></app-back-side-5>
+
+
+
+
+    
 </div>
 <div class="flex flex-col justify-around gap-4">
   <i><p class="text-xs flex flex-row w-full text-green-950 font-bold justify-center my-5"> Taper sur la carte pour voir l'autre côté de la carte </p></i>
@@ -30,18 +44,21 @@
       </ion-input>
     </ion-item>
 
+    <!-- Select des style de carte -->
 <div class="mb-3 ">
     <ion-item color="#d4e0d2" lines="none" class="mx-5 rounded-lg ">
       <ion-select aria-label="Fruit" (change) = "pushData()" [(ngModel)]="selectedOption" interface="popover" class="rounded-lg ps-3 text-green-950 shadow-md bg-[#ffffffd3]" placeholder="Select your style">
         <ion-select-option value= 1 >Style 1</ion-select-option>
         <ion-select-option value=2 >Style 2</ion-select-option>
+        <ion-select-option value=3 >Style 3</ion-select-option>
+        <ion-select-option value=4 >Style 4</ion-select-option>
+        <ion-select-option value=5 >Style 5</ion-select-option>
         <!-- <ion-select-option value=3 >Style 3</ion-select-option> -->
       </ion-select>
     </ion-item>
 </div>
 
-
-  <!-- <ion-button href="/cards" size="medium" ></ion-button>  -->
+ <!-- Button pour open le modal de modification des Informations -->
   <button id="open-modal" expand="block" type="button" class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center flex items-center justify-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-auto ms-auto mb-2">
     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
       <path fill-rule="evenodd" d="M11.32 6.176H5c-1.105 0-2 .949-2 2.118v10.588C3 20.052 3.895 21 5 21h11c1.105 0 2-.948 2-2.118v-7.75l-3.914 4.144A2.46 2.46 0 0 1 12.81 16l-2.681.568c-1.75.37-3.292-1.263-2.942-3.115l.536-2.839c.097-.512.335-.983.684-1.352l2.914-3.086Z" clip-rule="evenodd"/>
@@ -50,7 +67,8 @@
         Modifier les Données de la carte
   </button>
   </div>
-<!-- Modifications des Informations Modal -->
+
+<!-- Modal-- Modifications des Informations  -->
   <ion-modal #modal trigger="open-modal"  [initialBreakpoint]="0.75" [breakpoints]="[0, 0.5, 0.75, 1]" >
     <ng-template >
       <ion-header>
@@ -63,6 +81,7 @@
       </ion-header>
       <ion-content class="bg-white">
         <ion-list>
+          <!-- Nom de la compagnie -->
           <ion-item>
            <div class="mb-6 w-full">
             <label for="default-input" class="block mb-2  text-sm font-medium text-gray-200 dark:text-white">Name: </label>
@@ -73,49 +92,63 @@
           <ion-item>
            <div class="mb-6 w-full">
             <label class="block mb-2 text-sm font-medium text-gray-200 dark:text-white" for="file_input">Upload file</label>
-            <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
+            <input disabled="true" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
           </div>
         </ion-item>
-
+        <!-- Phone number input -->
         <ion-item>
           <div class="mb-6 w-full">
             <label for="default-input" class="block mb-2  text-sm font-medium text-gray-200 dark:text-white">Téléphone: </label>
             <input type="text" [(ngModel)]="phone" value="{{value?.phone}}" id="default-input" class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
          </div>
         </ion-item>
-
+        <!-- Address input -->
         <ion-item>
           <div class="mb-6 w-full">
           <label for="default-input" class="block mb-2  text-sm font-medium text-gray-200 dark:text-white">Address: </label>
             <input type="text" [(ngModel)]="address" value="{{value?.address}}" id="default-input" class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
          </div>
          </ion-item>
-
+         <!-- email input -->
          <ion-item>
           <div class="mb-6 w-full">
           <label for="default-input" class="block mb-2  text-sm font-medium text-gray-200 dark:text-white">Email: </label>
             <input type="text" [(ngModel)]="email" value="{{value?.email}}" id="default-input" class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
          </div>
          </ion-item>
-
+         <!-- Facebook input -->
          <ion-item>
           <div class="mb-6 w-full">
           <label for="default-input" class="block mb-2  text-sm font-medium text-gray-200 dark:text-white">Facebook: </label>
             <input type="text" [(ngModel)]="facebook" value="{{value?.facebook}}" id="default-input" class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
          </div>
          </ion-item>
-
+         <!-- twitter Input -->
          <ion-item>
           <div class="mb-6 w-full">
           <label for="default-input" class="block mb-2  text-sm font-medium text-gray-200 dark:text-white">Twitter: </label>
             <input type="text" [(ngModel)]="twitter" value="{{value?.twitter}}" id="default-input" class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
          </div>
          </ion-item>
-
+         <!-- instagram input -->
          <ion-item>
           <div class="mb-6 w-full">
           <label for="default-input" class="block mb-2  text-sm font-medium text-gray-200 dark:text-white">Instagram</label>
             <input type="text" [(ngModel)]="instagram" value="{{value?.instagram}}" id="default-input" class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+         </div>
+         </ion-item>  
+         <!-- site input -->
+         <ion-item>
+          <div class="mb-6 w-full">
+          <label for="default-input" class="block mb-2  text-sm font-medium text-gray-200 dark:text-white">site</label>
+            <input type="text" [(ngModel)]="site" value="{{value?.site}}" id="default-input" class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+         </div>
+         </ion-item>       
+         <!-- catalog input -->
+         <ion-item>
+          <div class="mb-6 w-full">
+          <label for="default-input" class="block mb-2  text-sm font-medium text-gray-200 dark:text-white">Catalog</label>
+            <input type="text" [(ngModel)]="catalog" value="{{value?.catalog}}" id="default-input" class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
          </div>
          </ion-item>       
         </ion-list>
@@ -131,7 +164,8 @@
       </ion-footer>
     </ng-template>
   </ion-modal>
-<!-- Download Modal -->
+
+<!-- Modal--- Apercue des cartes avant le download  -->
   <ion-modal #modalDownload trigger="open-download" >
     <ng-template>
       <ion-header>
@@ -151,6 +185,15 @@
           <app-front-side-2 *ngIf="selectedOption == 2"  class="flex justify-center mx-auto  my-2"></app-front-side-2>
           <app-back-side-2 *ngIf="selectedOption == 2"  class="flex justify-center mx-auto  my-2"></app-back-side-2>
       
+          <app-front-side-3 *ngIf="selectedOption == 3"  class="flex justify-center mx-auto  my-2"></app-front-side-3>
+          <app-back-side-3 *ngIf="selectedOption == 3"  class="flex justify-center mx-auto  my-2"></app-back-side-3>
+      
+          <app-front-side-4 *ngIf="selectedOption == 4"  class="flex justify-center mx-auto  my-2"></app-front-side-4>
+          <app-back-side-4 *ngIf="selectedOption == 4"  class="flex justify-center mx-auto  my-2"></app-back-side-4>
+      
+          <app-front-side-5 *ngIf="selectedOption == 5"  class="flex justify-center mx-auto  my-2"></app-front-side-5>
+          <app-back-side-5 *ngIf="selectedOption == 5"  class="flex justify-center mx-auto  my-2"></app-back-side-5>
+      
           
         </div>
 
@@ -168,9 +211,9 @@
     </ng-template>
   </ion-modal>
 
-
 </ion-content>
 
+<!-- Footer -- button pour open le modal d'apercu des carte avant le download -->
 <ion-footer class="bg-[#d4e0d2]">
   <button id="open-download" expand="block"  type="button" class="text-gray-900 mt-3 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center flex justify-center items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-auto ms-auto mb-2">
     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -178,5 +221,4 @@
     </svg>
         Télécharger
   </button>
-  <!-- <button kendoButton (click)="pdf.saveAs('invoice.pdf') " class="text-white w-24 justify-center items-center flex ms-auto me-auto bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm  py-2.5 text-center mb-2">Download</button> -->
 </ion-footer>

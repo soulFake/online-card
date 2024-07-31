@@ -1,47 +1,48 @@
-<div class="bg-cover mx-3 bg-center flex shadow-lg w-[400px] h-[250px] justify-center rounded-lg " style="background-image: url('../assets/style_2/style2-back.png')">
+<div class="bg-cover mx-3 bg-center flex shadow-lg w-min-[400px] h-[250px] justify-center rounded-lg " style="background-image: url('../../../../assets/style_3/back02.svg')">
   <div class="flex flex-row ms-2 w-[100%] justify-between">
       <!-- <div class="flex w-[40%] my-auto mx-auto justify-center items-center mb-8 ">
           <img id="blah" src="info?.logo"  [src] = "info?.logo"  alt="" class="w-2/4">
         </div> -->
-        <div class="flex gap-3 break-all text-xs my-auto mb-auto w-[60%] flex-col ms-2 ml-auto justify-end items-end ">
+        <div class="flex gap-3 break-all  text-xs my-auto mb-auto w-[50%] flex-col  ml-auto justify-end items-end ">
             <div *ngIf="info?.site" class="flex flex-row mr-auto gap-3">
-                <img src="../assets/site.png" alt="" class="w-5">
+                <img src="../assets/style_3/site.png" alt="" class="w-5">
                 <a href="{{info?.site}}" class="flex underline hover:underline-offset-4 text-black font-sans font-normal justify-center items-center">{{info?.site}}</a>
             </div>
             <div *ngIf="info?.facebook" class="flex flex-row mr-auto gap-3">
-                <img src="../assets/facebook.png" alt="" class="w-5">
+                <img src="../assets/style_3/facebook.png" alt="" class="w-5">
                 <a href="{{info?.facebook}}" class="flex underline hover:underline-offset-4 text-black font-sans font-normal justify-center items-center">{{info?.facebook}}</a>
             </div>
             <div *ngIf="info?.instagram" class="flex flex-row mr-auto gap-3">
-                <img src="../assets/instagram.png" alt="" class="w-5">
+                <img src="../assets/style_3/instagram.png" alt="" class="w-5">
                 <a href="{{info?.instagram}}" class=" underline hover:underline-offset-4 flex text-black font-sans font-normal justify-center items-center">{{info?.instagram}}</a>
             </div>
             <div *ngIf="info?.twitter" class="flex flex-row mr-auto gap-3">
-                <img src="../assets/twitter.png" alt="" class="w-5">
+                <img src="../assets/style_3/twitter.png" alt="" class="w-5">
                 <a href="{{info?.twitter}}" class="flex underline hover:underline-offset-4 text-black font-sans font-normal justify-center items-center">{{info?.twitter}}</a>
             </div>
         </div>
       
-        <div class="flex gap-3 text-xs my-auto mb-auto w-[60%] flex-col ms-auto ml-auto justify-end items-end ">
+        <div class="flex gap-3  text-xs my-auto mb-auto w-[50%] flex-col ms-12 me-auto  ">
           <div *ngIf="info?.phone" class="flex break-all flex-row mr-auto gap-3">
-              <img src="../assets/phone.png" alt="" class="w-5">
-              <p class="flex text-black font-sans font-normal justify-center items-center">{{info?.phone}}</p>
+              <img src="../assets/style_3/phone.png" alt="" class="w-5">
+              <p class="flex  text-black font-sans font-normal justify-center items-center">{{info?.phone}}</p>
           </div>
-          <div *ngIf="info?.catalog" class="flex break-all flex-row mr-auto gap-3">
-              <img src="../assets/catalog.png" alt="" class="w-5">
-              <p class="flex text-black font-sans font-normal justify-center items-center">{{info?.catalog}}</p>
+          <div *ngIf="info?.catalog" class="flex break-all flex-row mr-auto me-auto gap-3">
+              <img src="../assets/style_3/catalog.png" alt="" class="w-5">
+              <p class="flex text-black  font-sans font-normal justify-center items-center">{{info?.catalog}}</p>
           </div>
           <div *ngIf="info?.email" class="flex break-all flex-row mr-auto gap-3">
-              <img src="../assets/mail.png" alt="" class="w-5">
-              <p class="flex text-black font-sans font-normal justify-center items-center">{{info?.email}}</p>
+              <img src="../assets/style_3/mail.png" alt="" class="w-5">
+              <p class="flex  text-black font-sans font-normal justify-center items-center">{{info?.email}}</p>
           </div>
           <div *ngIf="info?.address" class="flex flex-row mr-auto gap-3">
-              <img src="../assets/location.png" alt="" class="w-5">
+              <img src="../assets/style_3/location.png" alt="" class="">
               <a class="underline text-black font-sans text-xs font-normal hover:underline-offset-4" href="https://www.google.com/maps?q={{info?.latitude}},{{info?.longitude}}">
                  {{info?.address}}
               </a>
           </div>
-                    
+          
+          
       </div>
 
       

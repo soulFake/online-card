@@ -12,4 +12,7 @@ export interface Information {
     instagram?: string;
     twitter?: string;
     site?: string;
+    catalog?: string;
+    slogan?: string;
+    description?: string;
 }

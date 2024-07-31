@@ -13,6 +13,12 @@ import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 import { FrontSideComponent as FrontSideComponent_1 } from "../style/style2/front-side/front-side.component";
 import { BackSideComponent as BackSideComponent_1 } from "../style/style2/back-side/back-side.component";
 import {jsPDF} from 'jspdf';
+import { FrontSideComponent as FrontSideComponent_3 } from "../style/style3/front-side/front-side.component";
+import { FrontSideComponent as FrontSideComponent_4 } from "../style/style4/front-side/front-side.component";
+import { FrontSideComponent as FrontSideComponent_5 } from "../style/style5/front-side/front-side.component";
+import { BackSideComponent as BackSideComponent_3 } from "../style/style3/back-side/back-side.component";
+import { BackSideComponent as BackSideComponent_4 } from "../style/style4/back-side/back-side.component";
+import { BackSideComponent as BackSideComponent_5 } from "../style/style5/back-side/back-side.component";
 
 @NgModule({
   imports: [
@@ -24,7 +30,14 @@ import {jsPDF} from 'jspdf';
     BackSideComponent,
     PDFExportModule,
     FrontSideComponent_1,
-    BackSideComponent_1
+    BackSideComponent_1,
+    FrontSideComponent_3,
+    BackSideComponent_3,
+    FrontSideComponent_4,
+    BackSideComponent_4,
+    FrontSideComponent_5,
+    BackSideComponent_5
+
 ],
   declarations: [CardsPage]
 })
