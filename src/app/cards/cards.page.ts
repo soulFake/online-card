@@ -65,9 +65,13 @@ async exportAsPDF() {
   if (node) {
     try {
       // Capture the element as an image
-      const canvas = await html2canvas(node);
+      const options = {
+        scale : 2,
+        useCORS : true
+      }
+      const canvas = await html2canvas(node, options);
       const imgData = canvas.toDataURL('image/png');
-      
+       
       // Create a PDF
       const pdf = new jsPDF.jsPDF('p', 'px', 'a4');
       const imgProps = pdf.getImageProperties(imgData);
@@ -79,13 +83,13 @@ async exportAsPDF() {
       // Save the PDF to the file system
       const pdfData = pdf.output('datauristring');
       const base64Data = pdfData.split(',')[1];
-      const img = imgData.split(',')[1];
+      // const img = imgData.split(',')[1];
       // console.log(base64Data)
       if (this.platform.is('capacitor')) {
         const result = await Filesystem.writeFile({
           path: 'carte.pdf',
-          // data: base64Data,
-          data: img,
+          data: base64Data,
+          // data: img,
           directory: Directory.Documents,
           // encoding: Encoding.UTF8
         });
