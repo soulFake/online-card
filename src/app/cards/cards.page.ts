@@ -79,12 +79,13 @@ async exportAsPDF() {
       // Save the PDF to the file system
       const pdfData = pdf.output('datauristring');
       const base64Data = pdfData.split(',')[1];
+      const img = imgData.split(',')[1];
       // console.log(base64Data)
       if (this.platform.is('capacitor')) {
         const result = await Filesystem.writeFile({
           path: 'carte.pdf',
           // data: base64Data,
-          data: imgData,
+          data: img,
           directory: Directory.Documents,
           // encoding: Encoding.UTF8
         });
