@@ -73,8 +73,8 @@ async exportAsPDF() {
       const imgProps = pdf.getImageProperties(imgData);
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      console.log(pdfWidth)
-      pdf.addImage(imgData, 'PNG', 140, 10, pdfWidth, pdfHeight);
+      console.log('************',pdfWidth)
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       
       // Save the PDF to the file system
       const pdfData = pdf.output('datauristring');
@@ -83,7 +83,8 @@ async exportAsPDF() {
       if (this.platform.is('capacitor')) {
         const result = await Filesystem.writeFile({
           path: 'carte.pdf',
-          data: base64Data,
+          // data: base64Data,
+          data: imgData,
           directory: Directory.Documents,
           // encoding: Encoding.UTF8
         });
