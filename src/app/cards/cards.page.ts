@@ -21,7 +21,7 @@ export class CardsPage implements OnInit {
 // proprietes / var 
 
 frontSide : boolean = true;
-selectedOption?: number = 3;
+selectedOption?: number = 1;
 value?: Information;
 
 @Input() company? : string ;
@@ -66,7 +66,7 @@ async exportAsPDF() {
     try {
       // Capture the element as an image
       const options = {
-        scale : 2,
+        scale : 10,
         useCORS : true
       }
       const canvas = await html2canvas(node, options);
