@@ -60,42 +60,22 @@ loading: any;
 
 
 async exportAsPDF() {
-  const node = document.getElementById('#myLucky');
+  const node = document.getElementById('myLucky');
 
   if (node) {
     try {
-      const A4_HEIGHT = 841.89;
-      const A4_WIDTH = 595.28;
-      const WIDTH_MARGIN = 10;
-      const HEIGHT_MARGIN = 10;
-      const PAGE_HEIGHT = A4_HEIGHT - 2 * HEIGHT_MARGIN;
-
       // Capture the element as an image
-      const canvas = await html2canvas(node as HTMLElement );
-      // const imgData = canvas.toDataURL('image/png');
-      // Newwwwwwwww
-      const canvasWidth = canvas.width;
-      const canvasHeight = canvas.height;
+      const canvas = await html2canvas(node);
+      const imgData = canvas.toDataURL('image/png');
       
-      const imgWidth = A4_WIDTH - 2 * WIDTH_MARGIN;    // max image width
-      const imgHeight = (imgWidth / canvasWidth) * canvasHeight; 
-      const imgData = canvas.toDataURL('image/png', 1.0);
-      const usedHeight = HEIGHT_MARGIN;
       // Create a PDF
-      const pdf = new jsPDF.jsPDF('p', 'pt', 'a4');
-      // const imgProps = pdf.getImageProperties(imgData);
-      // const pdfWidth = pdf.internal.pageSize.getWidth();
-      // const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      // console.log(pdfWidth)
-      // pdf.addImage(imgData, 'PNG', 10, 10, 13, 29);
-      pdf.addImage(
-        imgData,      // img DataUrl
-        'PNG',
-        WIDTH_MARGIN, // x - position against the left edge of the page
-        usedHeight,   // y - position against the upper edge of the page
-        imgWidth,
-        imgHeight,
-      );
+      const pdf = new jsPDF.jsPDF('p', 'px', 'a4');
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      console.log(pdfWidth)
+      pdf.addImage(imgData, 'PNG', 140, 10, pdfWidth, pdfHeight);
+      
       // Save the PDF to the file system
       const pdfData = pdf.output('datauristring');
       const base64Data = pdfData.split(',')[1];
