@@ -27,6 +27,7 @@
 
     
 </div>
+
 <div class="flex flex-col justify-around gap-4">
   <i><p class="text-xs flex flex-row w-full text-green-950 font-bold justify-center my-5"> Taper sur la carte pour voir l'autre côté de la carte </p></i>
 
@@ -176,9 +177,9 @@
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
-      <ion-content class="bg-[#d4e0d2] flex flex-col justify-around">
+      <ion-content  class="bg-[#d4e0d2] flex flex-col justify-around">
 
-        <div #myCard id="myLucky" class="flex flex-col gap-4">
+        <div id="#myLucky"  class="flex flex-col  mx-auto gap-4">
           <app-front-side  *ngIf="selectedOption == 1"  class="flex justify-center mx-auto  my-2"></app-front-side>
           <app-back-side *ngIf="selectedOption == 1"   class="flex justify-center mx-auto  my-2"></app-back-side>
           
