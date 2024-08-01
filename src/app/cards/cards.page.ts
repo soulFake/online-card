@@ -80,10 +80,10 @@ async exportAsPDF() {
         }
       };
       // Capture the element as an image using dom-to-image
-      const imgData2 = await domtoimage.toPng(node, options);
+      const imgData = await domtoimage.toPng(node, options);
 
       // Remove the data URL header to get the base64 encoded string
-      const base64Data2 = imgData2.split(',')[1];
+      // const base64Data = imgData.split(',')[1];
 
 
       // const canvas = await html2canvas(node, options);
@@ -91,11 +91,11 @@ async exportAsPDF() {
        
       // Create a PDF
       const pdf = new jsPDF.jsPDF('p', 'px', 'a4');
-      // const imgProps = pdf.getImageProperties(imgData);
-      // const pdfWidth = pdf.internal.pageSize.getWidth();
-      // const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
       // console.log('************',pdfWidth)
-      // pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       
       // Save the PDF to the file system
       const pdfData = pdf.output('datauristring');
@@ -104,16 +104,16 @@ async exportAsPDF() {
       // console.log(base64Data)
       if (this.platform.is('capacitor')) {
         const result = await Filesystem.writeFile({
-          path: 'carte.png',
+          path: 'carte.pdf',
           // data: base64Data,
-          data: base64Data2,
+          data: base64Data,
           directory: Directory.Documents,
           // encoding: Encoding.UTF8
         });
         console.log('PDF saved successfully:', result.uri);
         const fileOpenerOptions: FileOpenerOptions = {
           filePath: result.uri,
-          contentType: 'image/png',
+          contentType: 'application/pdf',
           openWithDefault: true,
         };
         // Open the PDF
