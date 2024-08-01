@@ -66,33 +66,41 @@ async exportAsPDF() {
   if (node) {
     try {
       // Capture the element as an image
-      const options = {
-        scale : 10,
-        useCORS : true
-      }
+      // const options = {
+      //   scale : 10,
+      //   useCORS : true
+      // }
 
+      const options = {
+        // width: node.offsetWidth * 2,  // Double the width
+        // height: node.offsetHeight * 2,  // Double the height
+        style: {
+          transform: 'scale(2)',
+          // transformOrigin: 'top left'
+        }
+      };
       // Capture the element as an image using dom-to-image
-      const imgData2 = await domtoimage.toPng(node);
+      const imgData2 = await domtoimage.toPng(node, options);
 
       // Remove the data URL header to get the base64 encoded string
       const base64Data2 = imgData2.split(',')[1];
 
 
-      const canvas = await html2canvas(node, options);
-      const imgData = canvas.toDataURL('image/png');
+      // const canvas = await html2canvas(node, options);
+      // const imgData = canvas.toDataURL('image/png');
        
       // Create a PDF
       const pdf = new jsPDF.jsPDF('p', 'px', 'a4');
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      console.log('************',pdfWidth)
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      // const imgProps = pdf.getImageProperties(imgData);
+      // const pdfWidth = pdf.internal.pageSize.getWidth();
+      // const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      // console.log('************',pdfWidth)
+      // pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       
       // Save the PDF to the file system
       const pdfData = pdf.output('datauristring');
       const base64Data = pdfData.split(',')[1];
-      const img = imgData.split(',')[1];
+      // const img = imgData.split(',')[1];
       // console.log(base64Data)
       if (this.platform.is('capacitor')) {
         const result = await Filesystem.writeFile({
