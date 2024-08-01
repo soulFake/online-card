@@ -75,8 +75,6 @@ async exportAsPDF() {
       const options = {
         width: node.offsetWidth * 2,  // Double the width
         height: node.offsetHeight * 2,  // Double the height
-        // width: node.clientWidth * 2,  // Double the width
-        // height: node.clientHeight * 2,  // Double the height
         style: {
           transform: 'scale(2)',
           transformOrigin: 'top left'
@@ -104,10 +102,10 @@ async exportAsPDF() {
       // const pdfData = pdf.output('datauristring');
       // const base64Data = pdfData.split(',')[1];
       // const img = imgData.split(',')[1];
-      // console.log(base64Data)
+      console.log(base64Data)
       if (this.platform.is('capacitor')) {
         const result = await Filesystem.writeFile({
-          path: `'carte-${new Date().toDateString}.png'`,
+          path: 'carte.png',
           // data: base64Data,
           data: base64Data,
           directory: Directory.Documents,
