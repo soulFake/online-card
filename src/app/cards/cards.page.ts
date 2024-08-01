@@ -91,7 +91,7 @@ async exportAsPDF() {
       // const imgData = canvas.toDataURL('image/png');
        
       // // Create a PDF
-      // const pdf = new jsPDF.jsPDF('p', 'mm', 'a4');
+      const pdf = new jsPDF.jsPDF('p', 'px', 'a4') ;
       // const imgProps = pdf.getImageProperties(imgData);
       // const pdfWidth = pdf.internal.pageSize.getWidth();
       // const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
@@ -102,11 +102,10 @@ async exportAsPDF() {
       // const pdfData = pdf.output('datauristring');
       // const base64Data = pdfData.split(',')[1];
       // const img = imgData.split(',')[1];
-      console.log(base64Data)
+      // console.log(base64Data)
       if (this.platform.is('capacitor')) {
         const result = await Filesystem.writeFile({
           path: 'carte.png',
-          // data: base64Data,
           data: base64Data,
           directory: Directory.Documents,
           // encoding: Encoding.UTF8
@@ -114,18 +113,17 @@ async exportAsPDF() {
         console.log('PDF saved successfully:', result.uri);
         const fileOpenerOptions: FileOpenerOptions = {
           filePath: result.uri,
-          // contentType: 'application/pdf',
           contentType: 'image/png',
           openWithDefault: true,
         };
         // Open the PDF
         await FileOpener.open(fileOpenerOptions);
-        this.loading = !this.loading;
 
       } else {
         // For web: download the PDF
         // pdf.save('exported-document.pdf');
       }
+      this.loading = !this.loading;
     } catch (error) {
       console.error('Erreur lors de l\'exportation en PDF :', error);
     }
