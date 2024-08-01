@@ -8,6 +8,7 @@ import html2canvas from 'html2canvas';
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { PrintService } from '../print.service';
 import { FileOpener, FileOpenerOptions } from '@capacitor-community/file-opener';
+import * as domtoimage from 'dom-to-image';
 
 @Component({
   // standalone: true,
@@ -69,6 +70,14 @@ async exportAsPDF() {
         scale : 10,
         useCORS : true
       }
+
+      // Capture the element as an image using dom-to-image
+      const imgData2 = await domtoimage.toPng(node);
+
+      // Remove the data URL header to get the base64 encoded string
+      const base64Data2 = imgData2.split(',')[1];
+
+
       const canvas = await html2canvas(node, options);
       const imgData = canvas.toDataURL('image/png');
        
@@ -89,7 +98,7 @@ async exportAsPDF() {
         const result = await Filesystem.writeFile({
           path: 'carte.png',
           // data: base64Data,
-          data: img,
+          data: base64Data2,
           directory: Directory.Documents,
           // encoding: Encoding.UTF8
         });
