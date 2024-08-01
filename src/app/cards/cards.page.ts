@@ -72,11 +72,11 @@ async exportAsPDF() {
       // }
 
       const options = {
-        // width: node.offsetWidth * 2,  // Double the width
-        // height: node.offsetHeight * 2,  // Double the height
+        width: node.offsetWidth * 2,  // Double the width
+        height: node.offsetHeight * 2,  // Double the height
         style: {
           transform: 'scale(2)',
-          // transformOrigin: 'top left'
+          transformOrigin: 'top left'
         }
       };
       // Capture the element as an image using dom-to-image
