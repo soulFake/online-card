@@ -200,13 +200,17 @@
       
           
         </div>
-
         <button (click)="exportAsPDF()"  type="button" class="text-gray-900 mt-3 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center flex justify-center items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-auto ms-auto mb-2">
           <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V4M7 14H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-2m-1-5-4 5-4-5m9 8h.01"/>
           </svg>
               Télécharger
         </button>
+        @if(loading){
+          <ion-loading trigger="open-loading" isOpen="true" message="Téléchargement..." spinner="circles"></ion-loading>
+          
+        }
+       
 
 
 
