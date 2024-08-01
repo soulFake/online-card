@@ -39,7 +39,7 @@ value?: Information;
 @Input() site? : string ;
 @Input() catalog? : string ;
 @Input() id? : number ;
-loading: boolean = false;
+loading: any;
 
 // Methodes / Functions
 
@@ -61,7 +61,6 @@ loading: boolean = false;
 
 
 async exportAsPDF() {
-  this.loading = !this.loading;
   const node = document.getElementById('myLucky');
 
   if (node) {
@@ -81,32 +80,33 @@ async exportAsPDF() {
         }
       };
       // Capture the element as an image using dom-to-image
-      const imgData = await domtoimage.toPng(node, options);
+      const imgData2 = await domtoimage.toPng(node, options);
 
       // Remove the data URL header to get the base64 encoded string
-      const base64Data = imgData.split(',')[1];
+      const base64Data2 = imgData2.split(',')[1];
 
 
       // const canvas = await html2canvas(node, options);
       // const imgData = canvas.toDataURL('image/png');
        
-      // // Create a PDF
-      const pdf = new jsPDF.jsPDF('p', 'px', 'a4') ;
+      // Create a PDF
+      const pdf = new jsPDF.jsPDF('p', 'px', 'a4');
       // const imgProps = pdf.getImageProperties(imgData);
       // const pdfWidth = pdf.internal.pageSize.getWidth();
       // const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
       // console.log('************',pdfWidth)
-      // pdf.addImage(base64Data2, 'PNG', 0, 0, 210, 290);
+      // pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       
       // Save the PDF to the file system
-      // const pdfData = pdf.output('datauristring');
-      // const base64Data = pdfData.split(',')[1];
+      const pdfData = pdf.output('datauristring');
+      const base64Data = pdfData.split(',')[1];
       // const img = imgData.split(',')[1];
       // console.log(base64Data)
       if (this.platform.is('capacitor')) {
         const result = await Filesystem.writeFile({
           path: 'carte.png',
-          data: base64Data,
+          // data: base64Data,
+          data: base64Data2,
           directory: Directory.Documents,
           // encoding: Encoding.UTF8
         });
@@ -118,12 +118,10 @@ async exportAsPDF() {
         };
         // Open the PDF
         await FileOpener.open(fileOpenerOptions);
-
       } else {
         // For web: download the PDF
-        // pdf.save('exported-document.pdf');
+        pdf.save('exported-document.pdf');
       }
-      this.loading = !this.loading;
     } catch (error) {
       console.error('Erreur lors de l\'exportation en PDF :', error);
     }
@@ -182,5 +180,3 @@ async exportAsPDF() {
   }
 
 }
-
-
