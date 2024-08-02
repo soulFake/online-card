@@ -39,7 +39,7 @@ value?: Information;
 @Input() site? : string ;
 @Input() catalog? : string ;
 @Input() id? : number ;
-loading: any;
+loading: boolean = false;
 
 // Methodes / Functions
 
@@ -62,65 +62,53 @@ loading: any;
 
 async exportAsPDF() {
   const node = document.getElementById('myLucky');
-
+  this.loading = !this.loading;
+  
   if (node) {
     try {
-      // Capture the element as an image
-      // const options = {
-      //   scale : 10,
-      //   useCORS : true
-      // }
 
       const options = {
-        width: node.offsetWidth * 2,  // Double the width
-        height: node.offsetHeight * 2,  // Double the height
+        quality: 1,  // Maximum quality
+        width: node.scrollWidth * 2,  // Double the width for higher quality
+        height: node.scrollHeight * 2,  // Double the height for higher quality
         style: {
-          transform: 'scale(2)',
-          transformOrigin: 'top left'
+          transform: 'scale(2)',  // Scale up for higher quality
+          transformOrigin: 'top left',
+          width: node.scrollWidth + 'px',
+          height: node.scrollHeight + 'px'
         }
       };
       // Capture the element as an image using dom-to-image
-      const imgData2 = await domtoimage.toPng(node, options);
-
-      // Remove the data URL header to get the base64 encoded string
-      const base64Data2 = imgData2.split(',')[1];
-
-
-      // const canvas = await html2canvas(node, options);
-      // const imgData = canvas.toDataURL('image/png');
+      const imgData = await domtoimage.toPng(node, options);
        
       // Create a PDF
       const pdf = new jsPDF.jsPDF('p', 'px', 'a4');
-      // const imgProps = pdf.getImageProperties(imgData);
-      // const pdfWidth = pdf.internal.pageSize.getWidth();
-      // const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      // console.log('************',pdfWidth)
-      // pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       
       // Save the PDF to the file system
       const pdfData = pdf.output('datauristring');
       const base64Data = pdfData.split(',')[1];
-      // const img = imgData.split(',')[1];
-      // console.log(base64Data)
       if (this.platform.is('capacitor')) {
         const result = await Filesystem.writeFile({
-          path: 'carte.png',
-          // data: base64Data,
-          data: base64Data2,
+          path: `carte${Date.now().toString()}.pdf`,
+          data: base64Data,
           directory: Directory.Documents,
           // encoding: Encoding.UTF8
         });
         console.log('PDF saved successfully:', result.uri);
         const fileOpenerOptions: FileOpenerOptions = {
           filePath: result.uri,
-          contentType: 'image/png',
+          contentType: 'application/pdf',
           openWithDefault: true,
         };
         // Open the PDF
         await FileOpener.open(fileOpenerOptions);
       } else {
         // For web: download the PDF
-        pdf.save('exported-document.pdf');
+        pdf.save(`exported-${Date.now().toString()}.pdf`);
       }
     } catch (error) {
       console.error('Erreur lors de l\'exportation en PDF :', error);
@@ -128,6 +116,7 @@ async exportAsPDF() {
   } else {
     console.error('Élément non trouvé.');
   }
+  this.loading = !this.loading;
 }
 
   ngOnInit() {
@@ -141,7 +130,6 @@ async exportAsPDF() {
 
   changeFace(): void {
     this.frontSide = !this.frontSide;
-    console.log(this.frontSide);
   }
 
   getInfo():void {
@@ -167,10 +155,7 @@ async exportAsPDF() {
   pushData(): void {
     this.formService.info!.name = this.company;
     this.formService.info!.email = this.email;
-    // this.infoService.info!.logo = this.logo;
     this.formService.info!.phone = this.phone;
-    // this.formService.info!.latitude = this.latitude;
-    // this.formService.info!.longitude = this.longitude;
     this.formService.info!.address = this.address;
     this.formService.info!.facebook = this.facebook;
     this.formService.info!.instagram = this.instagram;

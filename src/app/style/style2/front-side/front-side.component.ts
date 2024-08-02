@@ -2,13 +2,14 @@ import { UpperCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormService } from 'src/app/form.service';
 import { Information } from 'src/app/information';
+import { IsaLogoComponent } from 'src/app/isa-logo/isa-logo.component';
 
 @Component({
   standalone: true,
   selector: 'app-front-side-2',
   templateUrl: './front-side.component.html',
   styleUrls: ['./front-side.component.scss'],
-  imports : [UpperCasePipe],
+  imports : [UpperCasePipe, IsaLogoComponent],
 
 })
 export class FrontSideComponent  implements OnInit {
